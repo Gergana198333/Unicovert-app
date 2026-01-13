@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Convert between different units easily</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Unit Converter</h1>
+            <p class="subtitle">Convert between different units quickly and easily</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Converter Section -->
+            <section class="converter-section">
+                <!-- Category Selection -->
+                <div class="category-selector">
+                    <label for="category">Select Category:</label>
+                    <select id="category" class="category-select">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="volume">Volume</option>
+                    </select>
+                </div>
+
+                <!-- Conversion Form -->
+                <div class="conversion-container">
+                    <!-- From Unit -->
+                    <div class="input-group">
+                        <label for="from-value">From:</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="from-value" 
+                                class="input-field" 
+                                placeholder="Enter value"
+                                value="1"
+                            >
+                            <select id="from-unit" class="unit-select">
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="foot">Foot (ft)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <button id="swap-btn" class="swap-button" title="Swap units">
+                        ⇅
+                    </button>
+
+                    <!-- To Unit -->
+                    <div class="input-group">
+                        <label for="to-value">To:</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="to-value" 
+                                class="input-field" 
+                                placeholder="Result"
+                                readonly
+                            >
+                            <select id="to-unit" class="unit-select">
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="foot">Foot (ft)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clear Button -->
+                <button id="clear-btn" class="clear-button">Clear All</button>
+            </section>
+
+            <!-- Conversion History (Future Feature) -->
+            <section class="history-section">
+                <h2>Conversion History</h2>
+                <div id="history" class="history-list">
+                    <p class="empty-message">No conversions yet</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Unit Converter App. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

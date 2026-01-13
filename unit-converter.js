@@ -58,103 +58,167 @@ function performConversion() {
     }
     
     const conversion = convert(from, fromUnit.value, toUnit.value, category);
-    toValue.value = conversion.toFixed(6).replace(/\.?0+$/, '');
+    
+    // Format the output
+    if (conversion === null) {
+        toValue.value = '';
+    } else {
+        // Round to appropriate decimal places
+        let formatted;
+        if (Math.abs(conversion) < 0.0001 || Math.abs(conversion) > 1000000) {
+            formatted = conversion.toExponential(6);
+        } else {
+            formatted = conversion.toFixed(8).replace(/\.?0+$/, '');
+        }
+        toValue.value = formatted;
+    }
     
     // Add to history
     addToHistory(from, fromUnit.value, conversion, toUnit.value);
 }
 
 function convert(value, fromUnit, toUnit, category) {
-    // Convert from unit to base unit first, then to target unit
-    const baseValue = toBaseUnit(value, fromUnit, category);
-    const result = fromBaseUnit(baseValue, toUnit, category);
+    // Special handling for temperature
+    if (category === 'temperature') {
+        return convertTemperature(value, fromUnit, toUnit);
+    }
+    
+    // For other units: convert to base unit, then to target unit
+    const toMeter = getToBaseUnit(value, fromUnit, category);
+    const result = getFromBaseUnit(toMeter, toUnit, category);
     return result;
 }
 
-function toBaseUnit(value, unit, category) {
-    const conversions = {
-        length: {
-            meter: 1,
-            kilometer: 1000,
-            centimeter: 0.01,
-            mile: 1609.34,
-            yard: 0.9144,
-            foot: 0.3048,
-            inch: 0.0254
-        },
-        weight: {
-            kilogram: 1,
-            gram: 0.001,
-            milligram: 0.000001,
-            pound: 0.453592,
-            ounce: 0.0283495,
-            ton: 1000
-        },
-        volume: {
-            liter: 1,
-            milliliter: 0.001,
-            gallon: 3.78541,
-            quart: 0.946353,
-            pint: 0.473176,
-            cup: 0.236588,
-            tablespoon: 0.0147868,
-            teaspoon: 0.00492892
-        },
-        temperature: {
-            celsius: 0,
-            fahrenheit: 0,
-            kelvin: 0
-        }
-    };
+function convertTemperature(value, fromUnit, toUnit) {
+    // Convert to Celsius first
+    let celsius;
     
-    if (category === 'temperature') {
-        return value; // Handle temperature separately
+    if (fromUnit === 'celsius') {
+        celsius = value;
+    } else if (fromUnit === 'fahrenheit') {
+        celsius = (value - 32) * 5/9;
+    } else if (fromUnit === 'kelvin') {
+        celsius = value - 273.15;
     }
     
-    return value * (conversions[category][unit] || 1);
+    // Convert from Celsius to target unit
+    if (toUnit === 'celsius') {
+        return celsius;
+    } else if (toUnit === 'fahrenheit') {
+        return celsius * 9/5 + 32;
+    } else if (toUnit === 'kelvin') {
+        return celsius + 273.15;
+    }
+    
+    return null;
 }
 
-function fromBaseUnit(value, unit, category) {
-    const conversions = {
+function getToBaseUnit(value, unit, category) {
+    // Conversion factors to base unit (meter, kilogram, liter)
+    const factors = {
         length: {
             meter: 1,
             kilometer: 1000,
+            hectometer: 100,
+            decameter: 10,
+            decimeter: 0.1,
             centimeter: 0.01,
-            mile: 1609.34,
+            millimeter: 0.001,
+            micrometer: 0.000001,
+            nanometer: 0.000000001,
+            mile: 1609.344,
             yard: 0.9144,
             foot: 0.3048,
             inch: 0.0254
         },
         weight: {
             kilogram: 1,
+            hectogram: 0.1,
+            decagram: 0.01,
             gram: 0.001,
+            decigram: 0.0001,
+            centigram: 0.00001,
             milligram: 0.000001,
+            microgram: 0.000000001,
+            ton: 1000,
             pound: 0.453592,
             ounce: 0.0283495,
-            ton: 1000
+            stone: 6.35029
         },
         volume: {
             liter: 1,
+            deciliter: 0.1,
+            centiliter: 0.01,
             milliliter: 0.001,
+            microliter: 0.000001,
+            kiloliter: 1000,
+            hectoliter: 100,
+            decaliter: 10,
             gallon: 3.78541,
             quart: 0.946353,
             pint: 0.473176,
             cup: 0.236588,
+            fluid_ounce: 0.0295735,
             tablespoon: 0.0147868,
             teaspoon: 0.00492892
-        },
-        temperature: {
-            celsius: 0,
-            fahrenheit: 0,
-            kelvin: 0
         }
     };
     
-    if (category === 'temperature') {
-        return value; // Handle temperature separately
-    }
+    return value * (factors[category][unit] || 1);
+}
+
+function getFromBaseUnit(value, unit, category) {
+    // Conversion factors from base unit (meter, kilogram, liter)
+    const factors = {
+        length: {
+            meter: 1,
+            kilometer: 1000,
+            hectometer: 100,
+            decameter: 10,
+            decimeter: 0.1,
+            centimeter: 0.01,
+            millimeter: 0.001,
+            micrometer: 0.000001,
+            nanometer: 0.000000001,
+            mile: 1609.344,
+            yard: 0.9144,
+            foot: 0.3048,
+            inch: 0.0254
+        },
+        weight: {
+            kilogram: 1,
+            hectogram: 0.1,
+            decagram: 0.01,
+            gram: 0.001,
+            decigram: 0.0001,
+            centigram: 0.00001,
+            milligram: 0.000001,
+            microgram: 0.000000001,
+            ton: 1000,
+            pound: 0.453592,
+            ounce: 0.0283495,
+            stone: 6.35029
+        },
+        volume: {
+            liter: 1,
+            deciliter: 0.1,
+            centiliter: 0.01,
+            milliliter: 0.001,
+            microliter: 0.000001,
+            kiloliter: 1000,
+            hectoliter: 100,
+            decaliter: 10,
+            gallon: 3.78541,
+            quart: 0.946353,
+            pint: 0.473176,
+            cup: 0.236588,
+            fluid_ounce: 0.0295735,
+            tablespoon: 0.0147868,
+            teaspoon: 0.00492892
+        }
+    };
     
-    return value / (conversions[category][unit] || 1);
+    return value / (factors[category][unit] || 1);
 }
 
 // =============================================
@@ -199,21 +263,33 @@ function onCategoryChange() {
 function getUnitsForCategory(category) {
     const unitLists = {
         length: [
-            { value: 'meter', label: 'Meter (m)' },
-            { value: 'kilometer', label: 'Kilometer (km)' },
+            { value: 'nanometer', label: 'Nanometer (nm)' },
+            { value: 'micrometer', label: 'Micrometer (μm)' },
+            { value: 'millimeter', label: 'Millimeter (mm)' },
             { value: 'centimeter', label: 'Centimeter (cm)' },
-            { value: 'mile', label: 'Mile (mi)' },
-            { value: 'yard', label: 'Yard (yd)' },
+            { value: 'decimeter', label: 'Decimeter (dm)' },
+            { value: 'meter', label: 'Meter (m)' },
+            { value: 'decameter', label: 'Decameter (dam)' },
+            { value: 'hectometer', label: 'Hectometer (hm)' },
+            { value: 'kilometer', label: 'Kilometer (km)' },
+            { value: 'inch', label: 'Inch (in)' },
             { value: 'foot', label: 'Foot (ft)' },
-            { value: 'inch', label: 'Inch (in)' }
+            { value: 'yard', label: 'Yard (yd)' },
+            { value: 'mile', label: 'Mile (mi)' }
         ],
         weight: [
-            { value: 'kilogram', label: 'Kilogram (kg)' },
-            { value: 'gram', label: 'Gram (g)' },
+            { value: 'microgram', label: 'Microgram (μg)' },
             { value: 'milligram', label: 'Milligram (mg)' },
-            { value: 'pound', label: 'Pound (lb)' },
+            { value: 'centigram', label: 'Centigram (cg)' },
+            { value: 'decigram', label: 'Decigram (dg)' },
+            { value: 'gram', label: 'Gram (g)' },
+            { value: 'decagram', label: 'Decagram (dag)' },
+            { value: 'hectogram', label: 'Hectogram (hg)' },
+            { value: 'kilogram', label: 'Kilogram (kg)' },
+            { value: 'ton', label: 'Metric Ton (t)' },
             { value: 'ounce', label: 'Ounce (oz)' },
-            { value: 'ton', label: 'Metric Ton (t)' }
+            { value: 'pound', label: 'Pound (lb)' },
+            { value: 'stone', label: 'Stone (st)' }
         ],
         temperature: [
             { value: 'celsius', label: 'Celsius (°C)' },
@@ -221,14 +297,21 @@ function getUnitsForCategory(category) {
             { value: 'kelvin', label: 'Kelvin (K)' }
         ],
         volume: [
+            { value: 'microliter', label: 'Microliter (μL)' },
+            { value: 'milliliter', label: 'Milliliter (mL)' },
+            { value: 'centiliter', label: 'Centiliter (cL)' },
+            { value: 'deciliter', label: 'Deciliter (dL)' },
             { value: 'liter', label: 'Liter (L)' },
-            { value: 'milliliter', label: 'Milliliter (ml)' },
-            { value: 'gallon', label: 'Gallon (gal)' },
-            { value: 'quart', label: 'Quart (qt)' },
-            { value: 'pint', label: 'Pint (pt)' },
-            { value: 'cup', label: 'Cup' },
+            { value: 'decaliter', label: 'Decaliter (daL)' },
+            { value: 'hectoliter', label: 'Hectoliter (hL)' },
+            { value: 'kiloliter', label: 'Kiloliter (kL)' },
+            { value: 'teaspoon', label: 'Teaspoon (tsp)' },
             { value: 'tablespoon', label: 'Tablespoon (tbsp)' },
-            { value: 'teaspoon', label: 'Teaspoon (tsp)' }
+            { value: 'fluid_ounce', label: 'Fluid Ounce (fl oz)' },
+            { value: 'cup', label: 'Cup' },
+            { value: 'pint', label: 'Pint (pt)' },
+            { value: 'quart', label: 'Quart (qt)' },
+            { value: 'gallon', label: 'Gallon (gal)' }
         ]
     };
     

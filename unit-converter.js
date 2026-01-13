@@ -291,11 +291,6 @@ function getUnitsForCategory(category) {
             { value: 'pound', label: 'Pound (lb)' },
             { value: 'stone', label: 'Stone (st)' }
         ],
-        temperature: [
-            { value: 'celsius', label: 'Celsius (°C)' },
-            { value: 'fahrenheit', label: 'Fahrenheit (°F)' },
-            { value: 'kelvin', label: 'Kelvin (K)' }
-        ],
         volume: [
             { value: 'microliter', label: 'Microliter (μL)' },
             { value: 'milliliter', label: 'Milliliter (mL)' },

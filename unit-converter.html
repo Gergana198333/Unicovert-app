@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Convert between different units easily</title>
+    <link rel="stylesheet" href="unit-converter.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1 class="app-name">UnitConvert</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                <li class="nav-item"><a href="#converter" class="nav-link">Converter</a></li>
+                <li class="nav-item"><a href="#history" class="nav-link">History</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header" id="home">
+            <h1>Unit Converter</h1>
+            <p class="subtitle">Convert between different units quickly and easily</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Converter Section -->
+            <section class="converter-section" id="converter">
+                <!-- Category Selection -->
+                <div class="category-selector">
+                    <label for="category">Select Category:</label>
+                    <select id="category" class="category-select">
+                        <option value="length">Length</option>
+                        <option value="weight">Weight</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="volume">Volume</option>
+                    </select>
+                </div>
+
+                <!-- Conversion Form -->
+                <div class="conversion-container">
+                    <!-- From Unit -->
+                    <div class="input-group">
+                        <label for="from-value">From:</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="from-value" 
+                                class="input-field" 
+                                placeholder="Enter value"
+                                value="1"
+                            >
+                            <select id="from-unit" class="unit-select">
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="foot">Foot (ft)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <button id="swap-btn" class="swap-button" title="Swap units">
+                        ⇅
+                    </button>
+
+                    <!-- To Unit -->
+                    <div class="input-group">
+                        <label for="to-value">To:</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="to-value" 
+                                class="input-field" 
+                                placeholder="Result"
+                                readonly
+                            >
+                            <select id="to-unit" class="unit-select">
+                                <option value="meter">Meter (m)</option>
+                                <option value="kilometer">Kilometer (km)</option>
+                                <option value="centimeter">Centimeter (cm)</option>
+                                <option value="mile">Mile (mi)</option>
+                                <option value="yard">Yard (yd)</option>
+                                <option value="foot">Foot (ft)</option>
+                                <option value="inch">Inch (in)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clear Button -->
+                <button id="clear-btn" class="clear-button">Clear All</button>
+            </section>
+
+            <!-- Conversion History -->
+            <section class="history-section" id="history">
+                <h2>Conversion History</h2>
+                <div id="history-list" class="history-list">
+                    <p class="empty-message">No conversions yet</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer" id="about">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Unit Converter</h3>
+                    <p>A simple, responsive web application for converting units across different categories including length, weight, temperature, and volume.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#converter">Converter</a></li>
+                        <li><a href="#history">History</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: <a href="mailto:info@unitconvert.com">info@unitconvert.com</a></p>
+                    <p>GitHub: <a href="#">github.com/uniconvert</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Unit Converter App. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="unit-converter.js"></script>
+</body>
+</html>

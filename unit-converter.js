@@ -312,6 +312,11 @@ function getUnitsForCategory(category) {
             { value: 'pint', label: 'Pint (pt)' },
             { value: 'quart', label: 'Quart (qt)' },
             { value: 'gallon', label: 'Gallon (gal)' }
+        ],
+        currency: [
+            { value: 'usd', label: 'US Dollar ($)' },
+            { value: 'eur', label: 'Euro (€)' },
+            { value: 'gbp', label: 'British Pound (£)' }
         ]
     };
     

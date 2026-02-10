@@ -3,106 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Converter - Convert between different units easily</title>
+    <title>Task Desk - Focused TODOs</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>Unit Converter</h1>
-            <p class="subtitle">Convert between different units quickly and easily</p>
+    <div class="page">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">Task Desk</span>
+                <span class="brand-subtitle">Tidy tasks, clear mind</span>
+            </div>
+            <div class="session" id="session-area">
+                <span class="session-user" id="session-user">Guest</span>
+                <button class="btn ghost" id="logout-btn" type="button" hidden>Logout</button>
+            </div>
         </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Converter Section -->
-            <section class="converter-section">
-                <!-- Category Selection -->
-                <div class="category-selector">
-                    <label for="category">Select Category:</label>
-                    <select id="category" class="category-select">
-                        <option value="length">Length</option>
-                        <option value="weight">Weight</option>
-                        <option value="temperature">Temperature</option>
-                        <option value="volume">Volume</option>
-                    </select>
+        <main class="content">
+            <section class="auth-card" id="auth-view">
+                <div class="auth-tabs">
+                    <button class="tab-button active" data-auth-tab="login" type="button">Login</button>
+                    <button class="tab-button" data-auth-tab="register" type="button">Register</button>
                 </div>
 
-                <!-- Conversion Form -->
-                <div class="conversion-container">
-                    <!-- From Unit -->
-                    <div class="input-group">
-                        <label for="from-value">From:</label>
-                        <div class="input-wrapper">
-                            <input 
-                                type="number" 
-                                id="from-value" 
-                                class="input-field" 
-                                placeholder="Enter value"
-                                value="1"
-                            >
-                            <select id="from-unit" class="unit-select">
-                                <option value="meter">Meter (m)</option>
-                                <option value="kilometer">Kilometer (km)</option>
-                                <option value="centimeter">Centimeter (cm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="foot">Foot (ft)</option>
-                                <option value="inch">Inch (in)</option>
-                            </select>
-                        </div>
-                    </div>
+                <form class="auth-form" id="login-form">
+                    <label class="field">
+                        <span>Email</span>
+                        <input type="email" id="login-email" autocomplete="email" required>
+                    </label>
+                    <label class="field">
+                        <span>Password</span>
+                        <input type="password" id="login-password" autocomplete="current-password" required>
+                    </label>
+                    <button class="btn primary" type="submit">Login</button>
+                    <p class="form-message" id="login-message"></p>
+                </form>
 
-                    <!-- Swap Button -->
-                    <button id="swap-btn" class="swap-button" title="Swap units">
-                        ⇅
-                    </button>
-
-                    <!-- To Unit -->
-                    <div class="input-group">
-                        <label for="to-value">To:</label>
-                        <div class="input-wrapper">
-                            <input 
-                                type="number" 
-                                id="to-value" 
-                                class="input-field" 
-                                placeholder="Result"
-                                readonly
-                            >
-                            <select id="to-unit" class="unit-select">
-                                <option value="meter">Meter (m)</option>
-                                <option value="kilometer">Kilometer (km)</option>
-                                <option value="centimeter">Centimeter (cm)</option>
-                                <option value="mile">Mile (mi)</option>
-                                <option value="yard">Yard (yd)</option>
-                                <option value="foot">Foot (ft)</option>
-                                <option value="inch">Inch (in)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Clear Button -->
-                <button id="clear-btn" class="clear-button">Clear All</button>
+                <form class="auth-form" id="register-form" hidden>
+                    <label class="field">
+                        <span>Email</span>
+                        <input type="email" id="register-email" autocomplete="email" required>
+                    </label>
+                    <label class="field">
+                        <span>Password</span>
+                        <input type="password" id="register-password" autocomplete="new-password" required>
+                    </label>
+                    <label class="field">
+                        <span>Confirm Password</span>
+                        <input type="password" id="register-confirm" autocomplete="new-password" required>
+                    </label>
+                    <button class="btn primary" type="submit">Create Account</button>
+                    <p class="form-message" id="register-message"></p>
+                </form>
             </section>
 
-            <!-- Conversion History (Future Feature) -->
-            <section class="history-section">
-                <h2>Conversion History</h2>
-                <div id="history" class="history-list">
-                    <p class="empty-message">No conversions yet</p>
+            <section class="app" id="app-view" hidden>
+                <div class="toolbar">
+                    <div class="tabs" role="tablist">
+                        <button class="tab-button active" data-tab="all" type="button">All Tasks</button>
+                        <button class="tab-button" data-tab="open" type="button">Open Tasks</button>
+                        <button class="tab-button" data-tab="completed" type="button">Completed Tasks</button>
+                    </div>
+                    <button class="btn primary" id="add-task-btn" type="button">Add Task</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="task-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="task-table-body"></tbody>
+                    </table>
+                    <div class="empty-state" id="empty-state" hidden>
+                        No tasks yet. Add one to get started.
+                    </div>
                 </div>
             </section>
         </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2026 Unit Converter App. All rights reserved.</p>
-        </footer>
     </div>
 
-    <!-- JavaScript -->
+    <div class="modal" id="task-modal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="task-modal-title">Add Task</h2>
+                <button class="icon-button" id="task-close" type="button" aria-label="Close">X</button>
+            </div>
+            <form id="task-form">
+                <input type="hidden" id="task-id">
+                <label class="field">
+                    <span>Title</span>
+                    <input type="text" id="task-title" required>
+                </label>
+                <label class="field">
+                    <span>Description (optional)</span>
+                    <textarea id="task-desc" rows="3"></textarea>
+                </label>
+                <label class="field">
+                    <span>Deadline</span>
+                    <input type="date" id="task-deadline" required>
+                </label>
+                <div class="modal-actions">
+                    <button class="btn ghost" id="task-cancel" type="button">Cancel</button>
+                    <button class="btn primary" type="submit">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="confirm-modal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Delete task</h2>
+                <button class="icon-button" id="confirm-close" type="button" aria-label="Close">X</button>
+            </div>
+            <p class="confirm-text">This task will be permanently removed.</p>
+            <div class="modal-actions">
+                <button class="btn ghost" id="confirm-cancel" type="button">Cancel</button>
+                <button class="btn danger" id="confirm-delete" type="button">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.2/dist/umd/supabase.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
